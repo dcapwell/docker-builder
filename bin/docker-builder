@@ -10,7 +10,7 @@ export APP_HOME=`cd "$bin/..">/dev/null; pwd`
 JAVA_OPTS="-XX:+TieredCompilation -XX:TieredStopAtLevel=1 -Xms1024M -Xmx1024M"
 
 find_jar() {
-  export JAR_PATH=$(find "$APP_HOME" -name "*docker-builder_*-one-jar.jar")
+  export JAR_PATH=$(find "$APP_HOME" -name "*docker-builder*-one-jar.jar")
 
   if [ -z "$JAR_PATH" ]; then
     echo "Unable to find docker builder jar under $APP_HOME" >&2
