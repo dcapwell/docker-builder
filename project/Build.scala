@@ -28,8 +28,7 @@ object Build extends sbt.Build {
     initialCommands := "import com.github.dcapwell.docker.builder._, lang._",
     publish :=  (),
     publishLocal :=  (),
-    publishArtifact :=  false,
-    test <<= run in Test toTask "" dependsOn (clean in Test)
+    publishArtifact :=  false
   )
 
   lazy val dockerBuilder = project in file("dockerbuilder") settings (common: _*) settings(

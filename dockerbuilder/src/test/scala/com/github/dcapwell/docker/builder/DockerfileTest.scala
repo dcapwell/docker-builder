@@ -9,6 +9,11 @@ class DockerfileTest extends Base {
   "centos with java" in {
     val content = Dockerfile.generate(List(centos, java))
     println(s"Content\n${content.mkString("\n")}")
+
+    content shouldBe List(
+      "FROM centos:centos6",
+      "RUN yum install -y java-1.7.0-openjdk-devel"
+    )
   }
 
   "nil" in {

@@ -8,16 +8,16 @@ object Dockerfile {
 
   def generate(traits: List[Trait]): List[String] = {
     @tailrec
-    def loop(current: Trait, rest: List[Trait], accum: List[String]): List[String] = {
-      val fromStr = current.from.map(_.toString).toList
+    def loop(traits: List[Trait], accum: List[String]): List[String] = traits match {
+      case x :: xs =>
+        val fromStr = x.from.map(_.toString).toList
+        val restStr = x.instructions.map(_.toString)
 
-      val restStr = current.instructions.map(_.toString)
-
-      if(rest.isEmpty) accum ++ fromStr ++ restStr
-      else loop(rest.head, rest.tail, accum ++ fromStr ++ restStr)
+        loop(xs, accum ++ fromStr ++ restStr)
+      case Nil => accum
     }
 
     if(traits.isEmpty) Nil
-    else loop(traits.head, traits.tail, Nil)
+    else loop(traits, Nil)
   }
 }

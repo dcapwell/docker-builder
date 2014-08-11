@@ -1,7 +1,6 @@
 package com.github.dcapwell.docker.builder.lang
 
 import scalaz.Scalaz._
-import scalaz.Show
 
 trait Instruction extends Any
 
