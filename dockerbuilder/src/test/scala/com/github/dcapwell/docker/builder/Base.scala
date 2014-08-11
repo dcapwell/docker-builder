@@ -1,6 +1,6 @@
-package com.github.dcapwell.docker.builder.lang
+package com.github.dcapwell.docker.builder
 
-import org.scalatest.{Matchers, FreeSpec}
+import org.scalatest.{FreeSpec, Matchers}
 
 import scala.io.Source
 

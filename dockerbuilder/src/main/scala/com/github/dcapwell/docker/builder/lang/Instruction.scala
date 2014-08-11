@@ -1,8 +1,16 @@
 package com.github.dcapwell.docker.builder.lang
 
 import scalaz.Scalaz._
+import scalaz.Show
 
 trait Instruction extends Any
+
+trait InstructionInstances {
+  implicit val imageShow: Show[Image] = Show.shows(i => s"${i.name.name}:${i.tag.tag}")
+  implicit val fromShow: Show[From] = Show.show(f => "FROM " + f.image.show)
+}
+
+object Instruction extends InstructionInstances
 
 case class Name(name: String)
 case class Tag(tag: String)

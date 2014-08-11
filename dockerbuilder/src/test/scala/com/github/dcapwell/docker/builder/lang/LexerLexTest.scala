@@ -1,5 +1,7 @@
 package com.github.dcapwell.docker.builder.lang
 
+import com.github.dcapwell.docker.builder.Base
+
 import scalaz.Scalaz._
 
 import scala.io.Source
