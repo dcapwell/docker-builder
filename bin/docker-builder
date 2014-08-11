@@ -1,0 +1,30 @@
+#!/usr/bin/env bash
+
+set -e
+
+bin=`dirname "$0"`
+export APP_HOME=`cd "$bin/..">/dev/null; pwd`
+
+# https://github.com/jruby/jruby/wiki/Improving-startup-time
+# produces fastest startup time on my mac
+JAVA_OPTS="-XX:+TieredCompilation -XX:TieredStopAtLevel=1 -Xms1024M -Xmx1024M"
+
+find_jar() {
+  export JAR_PATH=$(find "$APP_HOME" -name "*docker-builder_*-one-jar.jar")
+
+  if [ -z "$JAR_PATH" ]; then
+    echo "Unable to find docker builder jar under $APP_HOME" >&2
+    exit 1
+  fi
+}
+
+run() {
+  find_jar
+  java $JAVA_OPTS -jar $JAR_PATH "$@"
+}
+
+main() {
+  run "$@"
+}
+
+main "$@"

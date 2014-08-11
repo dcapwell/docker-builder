@@ -4,6 +4,8 @@ package builder
 import sbt.Keys._
 import sbt._
 
+import com.github.retronym.SbtOneJar
+
 object Build extends sbt.Build {
 
   def common = Project.defaultSettings ++ Seq[Setting[_]](
@@ -31,9 +33,10 @@ object Build extends sbt.Build {
     publishArtifact :=  false
   )
 
-  lazy val dockerBuilder = project in file("dockerbuilder") settings (common: _*) settings(
+  lazy val dockerBuilder = project in file("dockerbuilder") settings ((common ++ SbtOneJar.oneJarSettings): _*) settings(
     name := "docker-builder",
     description := "Rethought way to build docker images",
+    mainClass in SbtOneJar.oneJar := Some("com.github.dcapwell.docker.builder.CLI"),
     libraryDependencies ++= Seq(
       "org.scalaz" %% "scalaz-core" % scalazVersion,
       "com.chuusai" %% "shapeless" % shapelessVersion,
