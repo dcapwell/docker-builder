@@ -8,6 +8,6 @@ class DockerfileTest extends Base {
     val java = Trait.unapply(Lexer.lex(source("traits/openjdk-7.docker")).get).get
 
     val content = Dockerfile.generate(List(centos, java))
-    println(s"Content\n$content")
+    println(s"Content\n${content.mkString("\n")}")
   }
 }

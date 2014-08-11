@@ -1,20 +1,18 @@
 package com.github.dcapwell.docker.builder
 
 import com.github.dcapwell.docker.builder.lang.Trait
-import scalaz.syntax.show._
 
 object Dockerfile {
-  import com.github.dcapwell.docker.builder.lang.Instruction._
 
-  def generate(traits: List[Trait]): String = {
-    def loop(current: Trait, rest: List[Trait], accum: StringBuilder): StringBuilder = {
-      current.from.foreach(f => accum.append(f.shows))
+  def generate(traits: List[Trait]): List[String] = {
+    def loop(current: Trait, rest: List[Trait], accum: List[String]): List[String] = {
+      val fromStr = current.from.map(_.toString).toList
 
-//      current.instructions.foreach(i => accum.append(i.shows))
+      val restStr = current.instructions.map(_.toString)
 
-      if(rest.isEmpty) accum
-      else loop(rest.head, rest.tail, accum)
+      if(rest.isEmpty) accum ++ fromStr ++ restStr
+      else loop(rest.head, rest.tail, accum ++ fromStr ++ restStr)
     }
-    loop(traits.head, traits.tail, new StringBuilder).toString
+    loop(traits.head, traits.tail, Nil)
   }
 }

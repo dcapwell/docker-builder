@@ -5,16 +5,11 @@ import scalaz.Show
 
 trait Instruction extends Any
 
-trait InstructionInstances {
-  implicit val imageShow: Show[Image] = Show.shows(i => s"${i.name.name}:${i.tag.tag}")
-  implicit val fromShow: Show[From] = Show.show(f => "FROM " + f.image.show)
-}
-
-object Instruction extends InstructionInstances
-
 case class Name(name: String)
 case class Tag(tag: String)
-case class Image(name: Name, tag: Tag)
+case class Image(name: Name, tag: Tag) {
+  override def toString: String = s"${name.name}:${tag.tag}"
+}
 
 object ImageExtract {
   def unapply(content: String): Option[Image] = {
@@ -25,7 +20,9 @@ object ImageExtract {
   }
 }
 
-case class From(image: Image) extends Instruction
+case class From(image: Image) extends Instruction {
+  override def toString: String = s"FROM $image"
+}
 
 object FromExtract {
   def unapply(data: (String, String)): Option[From] =
@@ -39,7 +36,9 @@ object NamedExtract {
     optAm(data, "named")(ImageExtract.unapply).map(Named.apply)
 }
 
-case class Run(command: String) extends Instruction
+case class Run(command: String) extends Instruction {
+  override def toString: String = s"RUN $command"
+}
 
 object RunExtract {
   def unapply(data: (String, String)): Option[Run] =
@@ -51,9 +50,4 @@ case class Self(self: List[Name]) extends Instruction
 object SelfExtract {
   def unapply(data: (String, String)): Option[Self] =
   am(data, "self")(c => Self(c.toLowerCase.split("with").map(_.trim).map(Name.apply).toList))
-}
-
-object TagExtract {
-  def unapply(data: (String, String)): Option[Tag] =
-    am(data, "tag")(Tag.apply)
 }
