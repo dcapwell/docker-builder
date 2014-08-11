@@ -29,6 +29,8 @@ object Tree {
     case FromExtract(f) => f.some
     case TagExtract(t) => t.some
     case NameExtract(n) => n.some
+    case SelfExtract(s) => s.some
+    case RunExtract(r) => r.some
     case _ => none
   }
 }
