@@ -5,8 +5,8 @@ import scalaz.syntax.std.option._
 
 import scala.io.Source
 
-class TreeParserTest extends FreeSpec with Matchers {
-  "parse simple os meta file" in {
+class TreeLexTest extends FreeSpec with Matchers {
+  "lex simple os meta file" in {
     val content =
       """
         |# base image for centos
@@ -17,7 +17,7 @@ class TreeParserTest extends FreeSpec with Matchers {
         |TAG: centos6
       """.stripMargin
 
-    val tree = Tree.parse(Source.fromString(content).getLines())
+    val tree = Tree.lex(Source.fromString(content).getLines())
     println(s"Tree is $tree")
 
     tree shouldBe List(
@@ -27,7 +27,7 @@ class TreeParserTest extends FreeSpec with Matchers {
     ).some
   }
 
-  "parse java mixin" in {
+  "lex java mixin" in {
     val content =
       """
         |# mixin to add java 7 support
@@ -40,7 +40,7 @@ class TreeParserTest extends FreeSpec with Matchers {
         |RUN: yum install -y java-1.7.0-openjdk-devel
       """.stripMargin
 
-    val tree = Tree.parse(Source.fromString(content).getLines())
+    val tree = Tree.lex(Source.fromString(content).getLines())
     println(s"Tree is $tree")
 
     tree shouldBe List(
@@ -51,7 +51,7 @@ class TreeParserTest extends FreeSpec with Matchers {
     ).some
   }
 
-  "parse image with self bounds" in {
+  "lex image with self bounds" in {
     val content =
       """
         |# mixin to add datanode
@@ -65,7 +65,7 @@ class TreeParserTest extends FreeSpec with Matchers {
         |RUN: cd /opt/hadoop && wget 'http://mirrors.koehn.com/apache/hadoop/common/hadoop-2.4.1/hadoop-2.4.1.tar.gz' && tar zxvf hadoop-2.4.1.tar.gz && rm hadoop-2.4.1.tar.gz
       """.stripMargin
 
-    val tree = Tree.parse(Source.fromString(content).getLines())
+    val tree = Tree.lex(Source.fromString(content).getLines())
     println(s"Tree is $tree")
 
     tree shouldBe List(
