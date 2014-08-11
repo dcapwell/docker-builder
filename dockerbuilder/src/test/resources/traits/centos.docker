@@ -1,0 +1,5 @@
+# base image for centos
+
+FROM: centos:centos6
+
+NAMED: rhel:centos6

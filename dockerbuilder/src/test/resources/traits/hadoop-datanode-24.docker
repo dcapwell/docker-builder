@@ -1,0 +1,8 @@
+# mixin to add datanode
+
+SELF: rhel with java
+
+NAMED: datanode:datanode-2.4
+
+RUN: mkdir -p /opt/hadoop
+RUN: cd /opt/hadoop && wget 'http://mirrors.koehn.com/apache/hadoop/common/hadoop-2.4.1/hadoop-2.4.1.tar.gz' && tar zxvf hadoop-2.4.1.tar.gz && rm hadoop-2.4.1.tar.gz
