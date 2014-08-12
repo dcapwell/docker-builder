@@ -21,7 +21,14 @@ trait Trait {
 
 case class SimpleTrait(parent: Trait#Parent,
                        named: Option[Named],
-                       instructions: List[Instruction]) extends Trait
+                       instructions: List[Instruction]) extends Trait {
+  override def toString: String = named match {
+    case Some(name) =>
+      s"Trait(${parent}, ${name})"
+    case None =>
+      s"Trait(${parent})"
+  }
+}
 
 object Trait {
   def unapply(instructions: List[Instruction]): Option[Trait] = instructions match {
